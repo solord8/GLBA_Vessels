@@ -44,6 +44,8 @@ Sub ProcessRawData()
                            
     'List of valid activities
     validActivities = Array("Kayak", "Skiff", "Hike")
+    
+    
                            
     ' Get the last row of data in Raw Data
     lastRow = rawDataWs.Cells(rawDataWs.Rows.Count, 1).End(xlUp).Row
@@ -69,7 +71,7 @@ Sub ProcessRawData()
         location = rawDataWs.Cells(i, "H").Value  ' Location
         detail = rawDataWs.Cells(i, "I").Value ' Detailed Location
         comments = rawDataWs.Cells(i, "J").Value  ' Comments
-        
+        wilderness = "" ' Wilderness (empty column)
         
        
         ' Determine the Location Standard based on the condition
@@ -91,6 +93,10 @@ Sub ProcessRawData()
             End If
         End If
         
+        ' Determine if activity is in Wilderness
+        If InStr(typeOfActivity, "Hike") > 0 Then
+            wilderness = "Yes"
+        End If
         
         ' Check if activityDate is a valid date
         If Not IsDate(activityDate) Then
@@ -130,7 +136,7 @@ Sub ProcessRawData()
         processedDataWs.Cells(finalRow, 7).Value = passengers + crew ' Total People
         processedDataWs.Cells(finalRow, 8).Value = location ' Location
         processedDataWs.Cells(finalRow, 9).Value = detail ' Detail
-        processedDataWs.Cells(finalRow, 10).Value = "" ' Wilderness (empty column)
+        processedDataWs.Cells(finalRow, 10).Value = wilderness ' Wilderness
         processedDataWs.Cells(finalRow, 11).Value = rawDataWs.Cells(i, "B").Value ' Date
         processedDataWs.Cells(finalRow, 12).Value = rawDataWs.Cells(i, "C").Value ' Start Time
         processedDataWs.Cells(finalRow, 13).Value = rawDataWs.Cells(i, "D").Value ' End Time
