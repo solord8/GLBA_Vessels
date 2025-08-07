@@ -94,8 +94,12 @@ Sub ProcessRawData()
         End If
         
         ' Determine if activity is in Wilderness
-        If InStr(typeOfActivity, "Hike") > 0 Then
+        If InStr(locationStandard, "Bartlett Cove") > 0 Then
+            wilderness = "No"
+        ElseIf InStr(typeOfActivity, "Hike") > 0 Then
             wilderness = "Yes"
+        Else
+            wilderness = "No"
         End If
         
         ' Check if activityDate is a valid date
