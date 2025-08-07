@@ -1,4 +1,8 @@
 Attribute VB_Name = "CVReportConsolidator"
+'Daniel Solorzano-Jones
+'solorzanodani@hotmail.com
+'Last updated: 8/7/2025
+
 Sub ConsolidateReports()
     On Error GoTo ErrorHandler
     Dim wb As Workbook
@@ -11,8 +15,8 @@ Sub ConsolidateReports()
     Dim metadataValue As Variant ' To hold the metadata value
     Dim metadataColumn As Integer ' Column to add metadata in consolidated sheet
 
-    ' Set the folder path where the Excel files are located
-    folderPath = "Q:\Administration A\A24 Committees\Backcountry\Charter Vessel\Reports\Charter2025\" ' Change to your folder path MUST END IN "\"
+    ' SET THE FOLDER PATH WHERE THE REPORTS ARE LOCATED
+    folderPath = "Q:\Administration A\A24 Committees\Backcountry\Charter Vessel\Reports\Charter2025\" ' THE FOLDER PATH MUST END IN "\"
     fileName = Dir(folderPath & "*.xlsx")
     
     ' Set the worksheet where consolidated data will be stored
@@ -80,7 +84,7 @@ Sub ConsolidateReports()
             consolidatedWs.Columns(3).NumberFormat = "hh:mm" ' Start Time format
             consolidatedWs.Columns(4).NumberFormat = "hh:mm" ' End Time format
         Else
-            Debug.Print "Sheet 'GLBA Off-Vessel Report' not found in file: " & fileName
+            Debug.Print "SHEET 'GLBA Off-Vessel Report' NOT FOUND IN FILE: " & fileName
         End If
         
         ' Close the current workbook without saving

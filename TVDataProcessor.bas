@@ -1,4 +1,8 @@
 Attribute VB_Name = "TVDataProcessor"
+'Daniel Solorzano-Jones
+'solorzanodani@hotmail.com
+'Last updated: 8/7/2025
+
 Sub ProcessRawData()
     Dim rawDataWs As Worksheet
     Dim processedDataWs As Worksheet
@@ -45,6 +49,9 @@ Sub ProcessRawData()
     
     'List of Wilderness activities
     wildernessActivities = Array("Hike", "Skiff/Hike", "Kayak/Hike")
+    
+    'List of Wilderness Waters
+    wildernessWaters = Array("Rendu", "Hugh Miller Inlet", "Adams", "Beardslee", "Scidmore")
                            
     ' Get the last row of data in Raw Data
     lastRow = rawDataWs.Cells(rawDataWs.Rows.Count, 1).End(xlUp).Row
@@ -98,7 +105,15 @@ Sub ProcessRawData()
         ElseIf InStr(typeOfActivity, "Hike") > 0 Then
             wilderness = "Yes"
         Else
-            wilderness = "No"
+           ' Check if locationStandard contains any string from wildernessWaters
+            Dim j As Long
+            wilderness = "No" ' Default to No
+            For j = LBound(wildernessWaters) To UBound(wildernessWaters)
+                If InStr(locationStandard, wildernessWaters(j)) > 0 Then
+                    wilderness = "Yes"
+                    Exit For
+                End If
+            Next j
         End If
               
         
