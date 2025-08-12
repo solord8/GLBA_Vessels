@@ -20,20 +20,20 @@ Sub ProcessRawData()
     ' Define headers for the Final Table as specified
     processedDataWs.Cells(1, 1).Value = "Vessel"
     processedDataWs.Cells(1, 2).Value = "Type"
-    processedDataWs.Cells(1, 3).Value = "Type of Activity"
-    processedDataWs.Cells(1, 4).Value = "Groups"
-    processedDataWs.Cells(1, 5).Value = "Passengers"
-    processedDataWs.Cells(1, 6).Value = "Crew"
-    processedDataWs.Cells(1, 7).Value = "Total People"
-    processedDataWs.Cells(1, 8).Value = "Location"
-    processedDataWs.Cells(1, 9).Value = "Detail"
+    processedDataWs.Cells(1, 3).Value = "Activity"
+    processedDataWs.Cells(1, 4).Value = "GROUPS"
+    processedDataWs.Cells(1, 5).Value = "PAX"
+    processedDataWs.Cells(1, 6).Value = "CREW"
+    processedDataWs.Cells(1, 7).Value = "TOTAL PEOPLE"
+    processedDataWs.Cells(1, 8).Value = "Location of Activity"
+    processedDataWs.Cells(1, 9).Value = "Location Detail"
     processedDataWs.Cells(1, 10).Value = "Wilderness"
     processedDataWs.Cells(1, 11).Value = "Date"
-    processedDataWs.Cells(1, 12).Value = "Start Time"
-    processedDataWs.Cells(1, 13).Value = "End Time"
-    processedDataWs.Cells(1, 14).Value = "Location Standard"
-    processedDataWs.Cells(1, 15).Value = "Activity Standardized"
-    processedDataWs.Cells(1, 16).Value = "Year"
+    processedDataWs.Cells(1, 12).Value = "START TIME COR"
+    processedDataWs.Cells(1, 13).Value = "END TIME COR"
+    processedDataWs.Cells(1, 14).Value = "LOCATION STANDARDIZED"
+    processedDataWs.Cells(1, 15).Value = "ACTIVITY STANDARDIZED"
+    processedDataWs.Cells(1, 16).Value = "YEAR"
     processedDataWs.Cells(1, 17).Value = "Comments"
     
     finalRow = 2 ' Start writing data from the second row
@@ -71,8 +71,18 @@ Sub ProcessRawData()
         ' Read values from RawData (adjust column numbers as necessary)
         vesselName = rawDataWs.Cells(i, "K").Value ' Adjust column for Vessel Name as necessary
         typeOfActivity = rawDataWs.Cells(i, "A").Value ' Type of Activity
-        passengers = rawDataWs.Cells(i, "E").Value ' Passengers
-        crew = rawDataWs.Cells(i, "F").Value ' Crew
+        passengers = 0 ' Passengers
+        crew = 0 ' Crew
+        
+        ' Check if the value is numeric before assigning
+        If IsNumeric(rawDataWs.Cells(i, "E").Value) Then
+            passengers = CLng(rawDataWs.Cells(i, "E").Value) ' Passengers
+        End If
+
+        If IsNumeric(rawDataWs.Cells(i, "F").Value) Then
+            crew = CLng(rawDataWs.Cells(i, "F").Value) ' Crew
+        End If
+
         activityDate = rawDataWs.Cells(i, "B").Value ' Date (assumed in column B)
         location = rawDataWs.Cells(i, "H").Value  ' Location
         detail = rawDataWs.Cells(i, "I").Value ' Detailed Location
