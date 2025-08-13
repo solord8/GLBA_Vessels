@@ -23,6 +23,9 @@ Sub ConsolidateReports()
     Set consolidatedWs = ThisWorkbook.Sheets("Raw Data") ' Change to your target sheet
     vesselName = consolidatedWs.Cells(1, consolidatedWs.Columns.Count).End(xlToLeft).Column + 1 ' Next column for metadata
     
+    ' Clear the Raw Data sheet before new data
+    consolidatedWs.Cells.Clear
+    
     ' Define headers
     consolidatedWs.Cells(1, 1).Value = "Activity"
     consolidatedWs.Cells(1, 2).Value = "Date"
@@ -35,6 +38,7 @@ Sub ConsolidateReports()
     consolidatedWs.Cells(1, 9).Value = "Detail"
     consolidatedWs.Cells(1, 10).Value = "Comments"
     metadataColumn = 11 ' Change if a metadata column is needed or adjust accordingly
+    consolidatedWs.Cells(1, 12).Value = "File Name"
     
     ' Add header for the metadata in the consolidated worksheet
     consolidatedWs.Cells(1, vesselName).Value = "Vessel Name" ' Change header name if needed
@@ -72,20 +76,24 @@ Sub ConsolidateReports()
                     For j = 1 To dataRange.Columns.Count
                         consolidatedWs.Cells(lastRow + i - 1, j).Value = dataRange.Cells(i, j).Value
                     Next j
+                    
+                    ' Add the file name to the last column (File Name)
+                    consolidatedWs.Cells(lastRow + i - 1, 12).Value = fileName ' File Name column
+                    
                 Next i
 
                 ' Fill the metadata value in the new column for all copied rows
                 consolidatedWs.Range(consolidatedWs.Cells(lastRow, metadataColumn), _
                                       consolidatedWs.Cells(lastRow + dataRange.Rows.Count - 1, metadataColumn)).Value = metadataValue
             End If
-            
-            ' Format columns
-            consolidatedWs.Columns(2).NumberFormat = "mm/dd/yy" ' Date format (adjust as needed)
-            consolidatedWs.Columns(3).NumberFormat = "hh:mm" ' Start Time format
-            consolidatedWs.Columns(4).NumberFormat = "hh:mm" ' End Time format
         Else
             Debug.Print "SHEET 'GLBA Off-Vessel Report' NOT FOUND IN FILE: " & fileName
         End If
+        
+        ' Format columns
+        consolidatedWs.Columns(2).NumberFormat = "mm/dd/yy" ' Date format (adjust as needed)
+        consolidatedWs.Columns(3).NumberFormat = "hh:mm" ' Start Time format
+        consolidatedWs.Columns(4).NumberFormat = "hh:mm" ' End Time format
         
         ' Close the current workbook without saving
         wb.Close False
