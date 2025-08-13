@@ -62,8 +62,10 @@ Sub ProcessRawData()
     For i = 2 To lastRow ' Assuming headers are in row 1
         Dim vesselName As Variant
         Dim typeOfActivity As String
+        Dim groups As Long
         Dim passengers As Long
         Dim crew As Long
+        Dim totalPeople As Long
         Dim activityDate As Variant
         Dim location As String
         Dim detail As String
@@ -91,7 +93,16 @@ Sub ProcessRawData()
         comments = rawDataWs.Cells(i, "J").Value  ' Comments
         wilderness = "" ' Wilderness (empty column)
         
-       
+       ' Calculate Total People
+        totalPeople = passengers + crew
+        
+        ' Check if Total People is greater than 0
+        If totalPeople > 0 Then
+            groups = 1
+        Else
+            groups = 0
+        End If
+        
         ' Determine the Location Standard based on the condition
         If location = "Other" Then
             If InStr(detail, " G") > 0 Then
@@ -134,13 +145,13 @@ Sub ProcessRawData()
             processedDataWs.Cells(finalRow, 1).Value = vesselName
             processedDataWs.Cells(finalRow, 2).Value = "TV" ' Type
             processedDataWs.Cells(finalRow, 3).Value = typeOfActivity
-            processedDataWs.Cells(finalRow, 4).Value = "" ' Groups (empty column)
+            processedDataWs.Cells(finalRow, 4).Value = groups ' Groups
             processedDataWs.Cells(finalRow, 5).Value = passengers
             processedDataWs.Cells(finalRow, 6).Value = crew
-            processedDataWs.Cells(finalRow, 7).Value = passengers + crew ' Total People
+            processedDataWs.Cells(finalRow, 7).Value = totalPeople ' Total People
             processedDataWs.Cells(finalRow, 8).Value = location ' Location
             processedDataWs.Cells(finalRow, 9).Value = detail ' Detail
-            processedDataWs.Cells(finalRow, 10).Value = "" ' Wilderness (empty column)
+            processedDataWs.Cells(finalRow, 10).Value = wilderness ' Wilderness
             processedDataWs.Cells(finalRow, 11).Value = "INVALID DATE" ' Highlight invalid date
             processedDataWs.Cells(finalRow, 12).Value = rawDataWs.Cells(i, "C").Value ' Start Time
             processedDataWs.Cells(finalRow, 13).Value = rawDataWs.Cells(i, "D").Value ' End Time
@@ -160,10 +171,10 @@ Sub ProcessRawData()
         processedDataWs.Cells(finalRow, 1).Value = vesselName ' Vessel Name
         processedDataWs.Cells(finalRow, 2).Value = "TV" ' Type
         processedDataWs.Cells(finalRow, 3).Value = typeOfActivity ' Type of Activity
-        processedDataWs.Cells(finalRow, 4).Value = "" ' Groups (empty column)
+        processedDataWs.Cells(finalRow, 4).Value = groups ' Groups
         processedDataWs.Cells(finalRow, 5).Value = passengers ' Passengers
         processedDataWs.Cells(finalRow, 6).Value = crew ' Crew
-        processedDataWs.Cells(finalRow, 7).Value = passengers + crew ' Total People
+        processedDataWs.Cells(finalRow, 7).Value = totalPeople ' Total People
         processedDataWs.Cells(finalRow, 8).Value = location ' Location
         processedDataWs.Cells(finalRow, 9).Value = detail ' Detail
         processedDataWs.Cells(finalRow, 10).Value = wilderness ' Wilderness
