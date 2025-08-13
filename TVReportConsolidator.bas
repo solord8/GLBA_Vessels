@@ -16,12 +16,15 @@ Sub ConsolidateReports()
     Dim metadataColumn As Integer ' Column to add metadata in consolidated sheet
 
     ' SET THE FOLDER PATH WHERE THE REPORTS ARE LOCATED
-    folderPath = "Q:\Administration A\A24 Committees\Backcountry\Tour Vessel\TourVesselReports\Raw Data (reports)\2025\" ' THE FOLDER PATH MUST END IN "\"
+    folderPath = "C:\Users\dsolorzano-jones\OneDrive - DOI\Documents\Test\Test 2024 TV - Entered\" ' THE FOLDER PATH MUST END IN "\"
     fileName = Dir(folderPath & "*.xlsx")
     
     ' Set the worksheet where consolidated data will be stored
     Set consolidatedWs = ThisWorkbook.Sheets("Raw Data") ' Change to your target sheet
     metadataColumn = consolidatedWs.Cells(1, consolidatedWs.Columns.Count).End(xlToLeft).Column + 1 ' Next column for metadata
+    
+    ' Clear the Raw Data sheet before new data
+    consolidatedWs.Cells.Clear
     
     ' Define headers
     consolidatedWs.Cells(1, 1).Value = "Activity"
@@ -35,7 +38,7 @@ Sub ConsolidateReports()
     consolidatedWs.Cells(1, 9).Value = "Detail"
     consolidatedWs.Cells(1, 10).Value = "Comments"
     metadataColumn = 11 ' Change if a metadata column is needed or adjust accordingly
-    
+    consolidatedWs.Cells(1, 12).Value = "File Name"
     
     ' Add header for the metadata in the consolidated worksheet
     consolidatedWs.Cells(1, metadataColumn).Value = "Vessel Name" ' Change header name if needed
@@ -73,6 +76,10 @@ Sub ConsolidateReports()
                     For j = 1 To dataRange.Columns.Count
                         consolidatedWs.Cells(lastRow + i - 1, j).Value = dataRange.Cells(i, j).Value
                     Next j
+                    
+                    ' Add the file name to the last column (File Name)
+                    consolidatedWs.Cells(lastRow + i - 1, 12).Value = fileName ' File Name column
+                    
                 Next i
 
                 ' Fill the metadata value in the new column for all copied rows
