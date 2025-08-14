@@ -16,12 +16,12 @@ Sub ConsolidateReports()
     Dim metadataColumn As Integer ' Column to add metadata in consolidated sheet
 
     ' SET THE FOLDER PATH WHERE THE REPORTS ARE LOCATED
-    folderPath = "Q:\Administration A\A24 Committees\Backcountry\Charter Vessel\Reports\Charter2025\" ' THE FOLDER PATH MUST END IN "\"
+    folderPath = "K:\Data\Bears\OtherWildlife\Wilderness\Backcountry_Activity\Tour_Charter\Database\2024_revised\Charter_data_2024\" ' THE FOLDER PATH MUST END IN "\"
     fileName = Dir(folderPath & "*.xlsx")
     
     ' Set the worksheet where consolidated data will be stored
     Set consolidatedWs = ThisWorkbook.Sheets("Raw Data") ' Change to your target sheet
-    vesselName = consolidatedWs.Cells(1, consolidatedWs.Columns.Count).End(xlToLeft).Column + 1 ' Next column for metadata
+    metadataColumn = consolidatedWs.Cells(1, consolidatedWs.Columns.Count).End(xlToLeft).Column + 1 ' Next column for metadata
     
     ' Clear the Raw Data sheet before new data
     consolidatedWs.Cells.Clear
@@ -41,7 +41,7 @@ Sub ConsolidateReports()
     consolidatedWs.Cells(1, 12).Value = "File Name"
     
     ' Add header for the metadata in the consolidated worksheet
-    consolidatedWs.Cells(1, vesselName).Value = "Vessel Name" ' Change header name if needed
+    consolidatedWs.Cells(1, metadataColumn).Value = "Vessel Name" ' Change header name if needed
     
     ' Loop through each Excel file in the folder
     Do While fileName <> ""
